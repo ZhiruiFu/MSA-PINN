@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE / editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Training outputs
+**/Results/*
+!**/Results/.gitkeep
+*.pth
+*.pt
+*.ckpt
+
+# Local logs and generated artifacts
+*.log
+logs/
+outputs/
+checkpoints/
