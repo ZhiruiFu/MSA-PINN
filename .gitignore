@@ -1,0 +1,34 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Conda environments and local config
+.conda/
+*.env
+.env
+
+# IDE/editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+
+# Model checkpoints and large binary outputs
+*.pth
+*.pt
+*.ckpt
+
+# Temporary files
+*.tmp
+*.bak
