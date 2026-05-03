@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "MSA-PINN Maxwell Experiments"
+message: "If you use this repository in your research, please cite the associated paper."
+type: software
+authors:
+  - family-names: Fu
+    given-names: Zhirui
+repository-code: "https://github.com/ZhiruiFu/MSA-PINN"
+year: 2026
+license: MIT
