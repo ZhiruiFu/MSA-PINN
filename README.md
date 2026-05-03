@@ -1,58 +1,33 @@
 # MSA-PINN Maxwell Experiments
 
-This repository contains the experimental code and configuration files for Maxwell-equation-based electromagnetic scattering and wave propagation experiments using the MSA-PINN framework.
+This repository provides the experimental code, configuration files, and running scripts for Maxwell-equation-based electromagnetic scattering and wave propagation experiments using the MSA-PINN framework.
 
-## 1. Experimental Hardware and Software Environment
+## 1. Repository Structure
 
-All experiments were conducted on the following workstation:
-
-| Component | Specification |
-|---|---|
-| Operating System | Windows 11 |
-| CPU | Intel(R) Core(TM) i9-14900KF |
-| GPU | NVIDIA GeForce RTX 5060 Ti, 16 GB VRAM |
-| NVIDIA Driver | 581.80 |
-| Driver-supported CUDA Runtime | 13.0 |
-| CUDA Toolkit | 11.8 |
-
-## 2. Environment Setup
-
-This project uses a Conda environment. The recommended environment name is:
-
-```bash
-MSA-PINN
-```
-
-Create and activate the environment with:
-
-```bash
-conda env create -f environment.yml
-conda activate MSA-PINN
-```
-
-The environment uses the GPU-enabled PyTorch build compiled with CUDA 11.8 support:
-
-| Package | Version |
-|---|---|
-| PyTorch | 2.7.1+cu118 |
-| TorchVision | 0.22.1+cu118 |
-| TorchAudio | 2.7.1+cu118 |
-
-The `+cu118` suffix indicates that these packages are built for CUDA 11.8. Therefore, this environment is intended for NVIDIA GPU acceleration rather than CPU-only execution.
-
-### GPU Compatibility Note
-
-The experiments were tested on an NVIDIA GeForce RTX 5060 Ti. This GPU corresponds to the newer `sm_120` CUDA compute capability. During execution, PyTorch may display a warning similar to:
+The repository contains three experiment folders, each corresponding to a different electromagnetic scattering or wave propagation scenario:
 
 ```text
-NVIDIA GeForce RTX 5060 Ti with CUDA capability sm_120 is not compatible with the current PyTorch installation.
+MSA-PINN/
+├── environment.yml
+├── README.md
+├── 1_ComplexMultimodalScatteringScenarios/
+│   ├── Config/
+│   ├── Module/
+│   ├── run_maxwell.py
+│   └── ...
+├── 2_Single-WavePlanePECScattering/
+│   ├── Config/
+│   ├── Module/
+│   ├── run_maxwell.py
+│   └── ...
+└── 3_TravelingWavePropagatio/
+    ├── Config/
+    ├── Module/
+    ├── run_maxwell.py
+    └── ...
 ```
 
-This warning indicates that the installed PyTorch version may not fully support the GPU architecture. Although the environment uses the CUDA 11.8 GPU-enabled PyTorch build, compatibility warnings may appear on RTX 50-series GPUs. The experiments in this repository were tested under the configuration described above.
-
-## 3. Repository Structure
-
-This repository contains three experiment folders, each corresponding to a different electromagnetic scattering or propagation scenario:
+The three main experiment folders are:
 
 ```text
 1_ComplexMultimodalScatteringScenarios/
@@ -60,36 +35,66 @@ This repository contains three experiment folders, each corresponding to a diffe
 3_TravelingWavePropagatio/
 ```
 
-Each experiment folder contains the main execution script:
+Each experiment folder contains its own configuration files, functional modules, and execution script.
 
-```text
-run_maxwell.py
+## 2. Experimental Hardware and Software Environment
+
+All experiments were conducted on the following workstation.
+
+| Component | Specification |
+|---|---|
+| CPU | Intel(R) Core(TM) i9-14900KF |
+| GPU | NVIDIA GeForce RTX 5060 Ti, 16 GB VRAM |
+| CUDA Toolkit | 11.8 |
+
+## 3. Environment Setup
+
+### 3.1 Create and Activate the Conda Environment
+
+Create the Conda environment from the provided `environment.yml` file and activate it:
+
+```bash
+conda env create -f environment.yml
+conda activate MSA-PINN
 ```
+
+### 3.2 Install GPU-Supported PyTorch with CUDA 11.8
+
+Install PyTorch, TorchVision, TorchAudio, and the CUDA 11.8 runtime package:
+
+```bash
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+```
+
+This step enables GPU acceleration for CUDA-compatible NVIDIA GPUs.
 
 ## 4. Running Experiments
 
-To run an experiment, enter one of the experiment folders and execute `run_maxwell.py`:
+### 4.1 Select an Experiment Scenario
+
+Before running the code, select one of the three experiment folders according to the target scenario.
+
+For the complex multimodal scattering scenario:
 
 ```bash
 cd 1_ComplexMultimodalScatteringScenarios
-python run_maxwell.py
 ```
 
-The same procedure applies to the other experiment folders:
+For the single plane-wave PEC scattering scenario:
 
 ```bash
 cd 2_Single-WavePlanePECScattering
-python run_maxwell.py
 ```
+
+For the traveling wave propagation scenario:
 
 ```bash
 cd 3_TravelingWavePropagatio
-python run_maxwell.py
 ```
 
-## 5. Selecting Experimental Configurations
+### 4.2 Select an Experimental Configuration
 
-Before running an experiment, the configuration index can be modified in `run_maxwell.py`.
+Before executing an experiment, the configuration index can be modified in `run_maxwell.py`.
 
 The experimental task is specified by:
 
@@ -97,17 +102,62 @@ The experimental task is specified by:
 task = Training.model("Maxwell", 3)
 ```
 
-Here, the second argument `3` corresponds to `ini_num`, which is used to select a specific configuration file. To run a different experimental configuration, change this value to the desired configuration index.
+In this statement, the first argument `"Maxwell"` specifies the physical problem type, while the second argument `3` corresponds to `ini_num`. This index is used to select a configuration file from the `Config/` directory.
 
 For example:
+
+```python
+task = Training.model("Maxwell", 3)
+```
+
+uses the following configuration file:
+
+```text
+Config/Maxwell_3.csv
+```
+
+To run another configuration, change the second argument. For example:
 
 ```python
 task = Training.model("Maxwell", 1)
 ```
 
-## 6. Output Files
+uses:
 
-After execution, the program automatically generates a results folder. A typical results folder contains:
+```text
+Config/Maxwell_1.csv
+```
+
+Therefore, the general correspondence is:
+
+```text
+task = Training.model("Maxwell", n)
+```
+
+corresponds to:
+
+```text
+Config/Maxwell_n.csv
+```
+
+### 4.3 Run the Selected Experiment
+
+After entering the selected experiment folder and confirming the configuration index, run:
+
+```bash
+python run_maxwell.py
+```
+
+For example, to run the first experiment scenario:
+
+```bash
+cd 1_ComplexMultimodalScatteringScenarios
+python run_maxwell.py
+```
+
+## 5. Output Files
+
+After execution, the program automatically generates a results folder for storing numerical and visualization outputs. A typical results folder contains:
 
 ```text
 Error/
@@ -119,11 +169,23 @@ Clock_time.csv
 Maxwell_1.csv
 ```
 
-The folders and files generally store error data, generated figures, loss curves, trained model checkpoints, mean squared error results, runtime records, and experiment-specific output data.
+The generated files and folders have the following functions:
 
-## 7. Notes
+| Folder/File | Description |
+|---|---|
+| `Error/` | Stores error-related numerical results. |
+| `Figure/` | Stores generated figures and visualization results. |
+| `Loss/` | Stores training loss records and loss-curve data. |
+| `Models/` | Stores trained model checkpoints. |
+| `MSE/` | Stores mean squared error evaluation results. |
+| `Clock_time.csv` | Records runtime information. |
+| `Maxwell_*.csv` | Stores experiment-specific output data. |
 
-- Use `environment.yml` to reproduce the Conda environment.
-- The environment is designed for GPU execution with CUDA-enabled PyTorch.
-- If running on a different GPU or CUDA setup, PyTorch/CUDA compatibility should be checked before execution.
+## 6. Notes
+
+- The Conda environment should be reproduced using the provided `environment.yml` file.
+- The experiments are designed for GPU execution with CUDA-enabled PyTorch.
+- CUDA 11.8 is used as the target CUDA runtime in the provided installation command.
+- If the code is executed on a different GPU or CUDA setup, PyTorch/CUDA compatibility should be checked before running the experiments.
 - If a PyTorch GPU compatibility warning appears on newer NVIDIA GPUs, verify whether the installed PyTorch version supports the corresponding CUDA compute capability.
+- When using relative paths in the scripts, each experiment should be executed from inside its corresponding experiment directory.
