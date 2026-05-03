@@ -159,18 +159,6 @@ python run_maxwell.py
 
 After execution, the program automatically generates a results folder for storing numerical and visualization outputs. A typical results folder contains:
 
-```text
-Error/
-Figure/
-Loss/
-Models/
-MSE/
-Clock_time.csv
-Maxwell_1.csv
-```
-
-The generated files and folders have the following functions:
-
 | Folder/File | Description |
 |---|---|
 | `Error/` | Stores error-related numerical results. |
@@ -180,12 +168,3 @@ The generated files and folders have the following functions:
 | `MSE/` | Stores mean squared error evaluation results. |
 | `Clock_time.csv` | Records runtime information. |
 | `Maxwell_*.csv` | Stores experiment-specific output data. |
-
-## 6. Notes
-
-- The Conda environment should be reproduced using the provided `environment.yml` file.
-- The experiments are designed for GPU execution with CUDA-enabled PyTorch.
-- CUDA 11.8 is used as the target CUDA runtime in the provided installation command.
-- If the code is executed on a different GPU or CUDA setup, PyTorch/CUDA compatibility should be checked before running the experiments.
-- If a PyTorch GPU compatibility warning appears on newer NVIDIA GPUs, verify whether the installed PyTorch version supports the corresponding CUDA compute capability.
-- When using relative paths in the scripts, each experiment should be executed from inside its corresponding experiment directory.
